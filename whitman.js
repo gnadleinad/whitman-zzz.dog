@@ -1,42 +1,62 @@
-// ----- variables ----- //
+// Made with Zdog
 
-var isSpinning = true;
-
-// ----- model ----- //
-
-var illo = new Zdog.Illustration({
-  element: '.illo',
-  zoom: 5,
+// create illo
+let illo = new Zdog.Illustration({
+  element: '.zdog-canvas',
   dragRotate: true,
-  onDragStart: function() {
-    isSpinning = false;
-  },
 });
 
-// circle
-new Zdog.Ellipse({
+function theTower() {
+
+// part #1: the main tower
+let mainTower = new Zdog.Box({
   addTo: illo,
-  diameter: 20,
-  translate: { z: 10 },
-  stroke: 5,
-  color: '#636',
+  width: 150,
+  height: 400,
+  depth: 150,
+  stroke: false,
+  color: '#FCF1E2', // default face color
+  leftFace: '#F0E5D7',
+  rightFace: '#F0E5D7',
+  topFace: false,
+  bottomFace: '#636',
 });
 
-// square
-new Zdog.Rect({
-  addTo: illo,
-  width: 20,
-  height: 20,
-  translate: { z: -10 },
-  stroke: 3,
-  color: '#E62',
+let towerRoof = new Zdog.Polygon({
+  addTo: mainTower,
+  radius: 100,
+  sides: 3,
   fill: true,
+  stroke: 6,
+  color: '#EA0',
+  rotate: { x: Zdog.TAU/9 },
+  translate: { y:-230, z: 65},
 });
 
-// ----- animate ----- //
+// tower-roof east side
+towerRoof.copy({
+  translate: {x: 75, y:-245},
+  color: '#C25',
+  rotate: {y: 1.57}
+});
 
+// tower-roof west side
+towerRoof.copy({
+  translate: {x: -75, y:-245},
+  color: '#C25',
+  rotate: {y: 1.57}
+});
+// tower-roof south side
+towerRoof.copy({
+  stroke:6,
+  translate: { y:-230, z: -65},
+  color: '#EA0',
+  rotate: { x: -Zdog.TAU/9 },
+});
+}
+theTower();
+// update & render
 function animate() {
-  illo.rotate.y += isSpinning ? 0.03 : 0;
   illo.updateRenderGraph();
   requestAnimationFrame( animate );
 }
