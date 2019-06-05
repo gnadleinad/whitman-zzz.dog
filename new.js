@@ -6,6 +6,7 @@ var mainTowerDepth = 150;
 var white = "#FCFCFC";
 var darkWhite = "#F0E5D7";
 var purple = '#636';
+var red = '#C25';
 
 
 let illo = new Zdog.Illustration({
@@ -17,35 +18,44 @@ let illo = new Zdog.Illustration({
 });
 let towerGroup = new Zdog.Group({
   addTo: illo,
-})
+});
 function makeWalls(width, height, depth) {
     let wall = new Zdog.Rect({ //front wall
-      addTo: towerGroup,
+      addTo: illo,
       width: width,
       height: height,
-      color: purple,
+      color: red,
       fill: true,
-      translate: {z: width/2}
+      translate: {z: depth/2}
     });
     wall.copy({ //right wall
       rotate: {y: Zdog.TAU/4},
       color: darkWhite,
+      width: depth,
       translate: {x: width/2}
     });
     wall.copy({ //left wall
       rotate: {y: Zdog.TAU/4},
       translate: {x: -width/2},
       color: darkWhite,
+      width: depth,
     });
     wall.copy({ // back wall
-      translate: {z: -width/2},
+      translate: {z: -depth/2},
       color: purple,
     });
     wall.copy({ //bottom
       rotate: {x: Zdog.TAU/4},
-      height: height,
+      height: depth,
       width: width,
       translate: {y: height/2},
+      color: white,
+    });
+    wall.copy({ //top
+      rotate: {x: Zdog.TAU/4},
+      height: depth,
+      width: width,
+      translate: {y: -height/2},
       color: white,
     });
   }
@@ -58,5 +68,5 @@ function animate() {
     requestAnimationFrame( animate );
   }
 
-makeWalls(200, 500, 900);
+makeWalls(400, 300, 500);
 animate();
